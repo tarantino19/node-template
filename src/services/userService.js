@@ -152,6 +152,61 @@ const userService = {
 			res.status(500).json({ message: error.message });
 		}
 	},
+
+	requestPasswordChange: async (req, res) => {
+		try {
+			const user = req.user; // Assuming req.user is populated by authenticateUser middleware
+
+			// Generate a new 4-digit confirmation code
+			const confirmationCode = generateConfirmationCode();
+
+			// Set the expiration time to 30 minutes from now
+			const confirmationCodeExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+
+			// Update the user's confirmation code and expiration time
+			user.confirmationCode = confirmationCode;
+			user.confirmationCodeExpires = confirmationCodeExpires;
+			await user.save();
+
+			// Send the confirmation code via email
+			await sendEmailChangePassword(user.email, confirmationCode);
+
+			res.status(200).json({ message: 'Confirmation code sent to your email.' });
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
+	},
+
+	changePassword: async (req, res) => {
+		try {
+			const { newPassword, confirmationCode } = req.body;
+			const user = req.user; // Assuming req.user is populated by authenticateUser middleware
+
+			// Check if the confirmation code matches
+			if (user.confirmationCode !== confirmationCode) {
+				return res.status(400).json({ message: 'Invalid confirmation code.' });
+			}
+
+			// Check if the confirmation code is still valid (not expired)
+			if (user.confirmationCodeExpires < new Date()) {
+				return res.status(400).json({ message: 'Confirmation code has expired.' });
+			}
+
+			// Hash the new password
+			const saltRounds = 10;
+			const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+			// Update the user's password and clear the confirmation code and expiration time
+			user.password = hashedPassword;
+			user.confirmationCode = null;
+			user.confirmationCodeExpires = null;
+			await user.save();
+
+			res.status(200).json({ message: 'Password changed successfully.' });
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
+	},
 };
 
 module.exports = userService;

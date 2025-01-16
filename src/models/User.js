@@ -17,11 +17,13 @@ const userSchema = new mongoose.Schema(
 			default: null,
 			validate: {
 				validator: function (code) {
-					return /^\d{6}$/.test(code);
+					// Ensure the code is exactly 4 digits long
+					return /^\d{4}$/.test(code);
 				},
-				message: 'Confirmation code must be exactly 6 digits long.',
+				message: 'Confirmation code must be exactly 4 digits long.',
 			},
 		},
+		confirmationCodeExpires: { type: Date, default: null },
 		userType: {
 			enum: ['user', 'admin', 'super-admin', 'startup-owner'],
 			type: String,
