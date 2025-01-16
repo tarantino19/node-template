@@ -1,6 +1,7 @@
 // server/src/loaders/express.js
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const albumRoutes = require('../routes/albumRoutes');
 const imageRoutes = require('../routes/imageRoutes');
 const surveyRoutes = require('../routes/surveyRoutes');
@@ -13,7 +14,8 @@ module.exports = () => {
 	// Middleware
 	app.use(cors());
 	app.use(express.json());
-	app.use(express.urlencoded({ extended: true })); 
+	app.use(express.urlencoded({ extended: true }));
+	app.use(cookieParser());
 
 	// Routes
 	app.use('/api/albums', albumRoutes);

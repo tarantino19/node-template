@@ -5,6 +5,10 @@ const userController = {
 		await UserService.createUser(req, res);
 	},
 
+	loginUser: async (req, res) => {
+		await UserService.loginUser(req, res);
+	},
+
 	getAllUsers: async (req, res) => {
 		await UserService.getAllUsers(req, res);
 	},
@@ -19,6 +23,10 @@ const userController = {
 
 	deleteUser: async (req, res) => {
 		await UserService.deleteUser(req, res);
+	},
+
+	getUserProfile: async (req, res) => {
+		await UserService.getUserProfile(req, res);
 	},
 };
 
