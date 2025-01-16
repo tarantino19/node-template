@@ -2,12 +2,13 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const { authenticateUser, isAdmin } = require('../middlewares/authMiddleware');
+const rateLimiter = require('../middlewares/raterLimiter');
 
 const router = express.Router();
 
 router.get('/profile', authenticateUser, userController.getUserProfile);
 router.post('/', userController.createUser);
-router.post('/login', userController.loginUser);
+router.post('/login', rateLimiter, userController.loginUser);
 router.get('/:userId', authenticateUser, isAdmin, userController.getUserById);
 router.put('/:userId', authenticateUser, isAdmin, userController.updateUser);
 router.delete('/:userId', authenticateUser, isAdmin, userController.deleteUser);
