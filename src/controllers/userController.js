@@ -28,6 +28,10 @@ const userController = {
 	getUserProfile: async (req, res) => {
 		await UserService.getUserProfile(req, res);
 	},
+
+	logOut: async (req, res) => {
+		await UserService.logOut(req, res);
+	},
 };
 
 module.exports = userController;

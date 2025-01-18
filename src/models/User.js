@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
 		emailConfirmed: { type: Boolean, default: false },
 		profilePicture: { type: String, default: '', required: false },
 		storageUsed: { type: Number, default: 0 },
-		storageLimit: { type: Number, default: 1073741824 }, // 1GB in bytes
+		storageLimit: { type: Number, default: 2 * 1024 * 1024 * 1024 }, // 1GB in bytes  //make thuis 2 gb
 		createdAt: { type: Date, default: Date.now },
 		updatedAt: { type: Date, default: Date.now },
 		confirmationCode: {

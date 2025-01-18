@@ -207,6 +207,21 @@ const userService = {
 			res.status(500).json({ message: error.message });
 		}
 	},
+
+	logOut: async (req, res) => {
+		try {
+			// When clearing the cookie (e.g., during logout)
+			res.clearCookie('jwt', {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'strict',
+			});
+
+			res.status(200).json({ message: 'Logged out successfully' });
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
+	},
 };
 
 module.exports = userService;

@@ -6,6 +6,7 @@ const rateLimiter = require('../middlewares/raterLimiter');
 
 const router = express.Router();
 
+router.post('/logout', userController.logOut);
 router.get('/profile', authenticateUser, userController.getUserProfile);
 router.post('/', userController.createUser);
 router.post('/login', rateLimiter, userController.loginUser);
