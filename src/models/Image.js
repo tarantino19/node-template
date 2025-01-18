@@ -25,6 +25,7 @@ const imageSchema = new mongoose.Schema({
 	uploadProgress: { type: Number, default: 0 },
 	isFavorite: { type: Boolean, default: false },
 	views: { type: Number, default: 0 },
+	likes: { type: Number, default: 0 },
 	expiresAt: { type: Date },
 });
 

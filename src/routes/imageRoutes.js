@@ -9,5 +9,6 @@ router.get('/:imageId', imageController.getImageById);
 router.put('/:imageId', imageController.updateImage);
 router.delete('/:imageId', imageController.deleteImage);
 router.get('/album/:albumId', imageController.getImagesByAlbum);
+router.post('/upload', imageController.uploadImage);
 
 module.exports = router;
